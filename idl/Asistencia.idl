@@ -1,0 +1,10 @@
+module Asistencia {
+    interface UsuarioService {
+        boolean validarUsuario(string idUsuario);
+    };
+
+    interface AsistenciaService {
+        boolean registrarAsistencia(string idUsuario);
+        string generarReporte(string idUsuario);
+    };
+};
