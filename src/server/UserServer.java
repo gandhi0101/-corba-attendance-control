@@ -2,6 +2,7 @@ package server;
 
 import utils.ORBSetup;
 import server.UserServiceImpl;
+import org.omg.CORBA.ORB;
 
 public class UserServer {
     public static void main(String[] args) {

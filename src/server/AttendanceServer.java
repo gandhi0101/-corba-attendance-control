@@ -1,6 +1,7 @@
 package server;
 
 import utils.ORBSetup;
+import org.omg.CORBA.ORB;
 
 public class AttendanceServer {
     public static void main(String[] args) {
