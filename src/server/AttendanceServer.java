@@ -6,9 +6,11 @@ import org.omg.CORBA.ORB;
 public class AttendanceServer {
     @SuppressWarnings("ImplicitArrayToString")
     public static void main(String[] args) {
-        System.err.println(args);
+        System.out.println(args);
+        System.out.println("HOlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         ORB orb = null;
         try {
+            
             // Inicializa el ORB
             orb = ORB.init(args, null);
             
