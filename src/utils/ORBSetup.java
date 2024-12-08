@@ -5,7 +5,7 @@ import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
 
 public class ORBSetup {
-    public static void startORB(String[] args, Object servant, String name) {
+    public static void startORB(String[] args, Servant servant, String name) {
         try {
             ORB orb = ORB.init(args, null);
             POA rootPOA = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
@@ -16,7 +16,7 @@ public class ORBSetup {
             NameComponent[] path = ncRef.to_name(name);
             ncRef.rebind(path, ref);
 
-            System.out.println(name + " está listo y esperando.");
+            System.out.println(name + " estA listo y esperando.");
             orb.run();
         } catch (Exception e) {
             e.printStackTrace();

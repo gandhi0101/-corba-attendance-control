@@ -15,7 +15,7 @@ Aplicación distribuida que utiliza CORBA para gestionar usuarios y control de a
    ```
 2. **Compilar los servicios y cliente**:
    ```bash
-   javac -d build/ src/**/*.java
+   javac -encoding UTF-8 -d build/ src/**/*.java
    ```
 3. **Ejecutar el Naming Service**:
    ```bash

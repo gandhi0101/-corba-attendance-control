@@ -23,7 +23,7 @@ public class Client {
                 asistenciaService.registrarAsistencia(userId);
                 System.out.println(asistenciaService.generarReporte(userId));
             } else {
-                System.out.println("Usuario no válido.");
+                System.out.println("Usuario no vAlido.");
             }
         } catch (Exception e) {
             e.printStackTrace();
