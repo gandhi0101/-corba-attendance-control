@@ -1,31 +1,53 @@
 package client;
 
-import Asistencia.*;
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
+import Asistencia.UsuarioService;
+import Asistencia.UsuarioServiceHelper;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
+
+import java.util.Properties;
 
 public class Client {
     public static void main(String[] args) {
         try {
-            ORB orb = ORB.init(args, null);
+            // Verifica si se pasa el argumento de conexión
+            if (args.length < 1) {
+                System.err.println("Uso: java client.Client <naming_ip:naming_port>");
+                System.exit(1);
+            }
+
+            // Divide el argumento en IP y puerto del Naming Service
+            String[] namingInfo = args[0].split(":");
+            if (namingInfo.length != 2) {
+                System.err.println("Formato incorrecto. Use <naming_ip:naming_port>.");
+                System.exit(1);
+            }
+            String namingServiceIp = namingInfo[0];
+            String namingServicePort = namingInfo[1];
+
+            // Configura las propiedades del ORB
+            Properties props = new Properties();
+            props.put("org.omg.CORBA.ORBInitialHost", namingServiceIp);
+            props.put("org.omg.CORBA.ORBInitialPort", namingServicePort);
+
+            // Inicializa el ORB
+            ORB orb = ORB.init(new String[]{}, props);
+
+            // Obtiene una referencia al Naming Service
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
-            // Resuelve el servicio de usuarios
+            // Busca el servicio de usuarios
             UsuarioService usuarioService = UsuarioServiceHelper.narrow(ncRef.resolve_str("UsuarioService"));
 
-            // Resuelve el servicio de asistencias
-            AsistenciaService asistenciaService = AsistenciaServiceHelper.narrow(ncRef.resolve_str("AsistenciaService"));
-
-            // Prueba las operaciones
+            // Ejemplo: Llama al método del servicio
             String userId = "user1";
-            if (usuarioService.validarUsuario(userId)) {
-                asistenciaService.registrarAsistencia(userId);
-                System.out.println(asistenciaService.generarReporte(userId));
-            } else {
-                System.out.println("Usuario no vAlido.");
-            }
+            boolean isValid = usuarioService.validarUsuario(userId);
+            System.out.println("Usuario válido: " + isValid);
+
         } catch (Exception e) {
+            System.err.println("Error inesperado al conectar al servicio.");
             e.printStackTrace();
         }
     }

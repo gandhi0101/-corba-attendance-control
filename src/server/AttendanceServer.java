@@ -7,31 +7,37 @@ import java.util.Properties;
 
 public class AttendanceServer {
     public static void main(String[] args) {
-        System.out.println(args);
-        System.out.println("HOlaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         ORB orb = null;
+
         try {
-            // Verifica si se pasa el argumento de conexión
-            if (args.length < 1) {
-                System.err.println("Uso: java server.AttendanceServer <ip:puerto>");
+            // Verifica si se pasan los argumentos necesarios
+            if (args.length < 2) {
+                System.err.println("Uso: java server.AttendanceServer <naming_ip:naming_port> <local_ip>");
                 System.exit(1);
             }
 
-            // Divide el argumento en IP y puerto
-            String[] connectionInfo = args[0].split(":");
-            if (connectionInfo.length != 2) {
-                System.err.println("Formato incorrecto. Use <ip:puerto>.");
+            // Procesa el primer argumento (IP y puerto del Naming Service)
+            String[] namingInfo = args[0].split(":");
+            if (namingInfo.length != 2) {
+                System.err.println("Formato incorrecto. Use <naming_ip:naming_port>.");
                 System.exit(1);
             }
-            String ip = connectionInfo[0];
-            String port = connectionInfo[1];
+            String namingServiceIp = namingInfo[0];
+            String namingServicePort = namingInfo[1];
+
+            // Segundo argumento: IP local del servidor
+            String localIp = args[1];
+
+            System.out.println("Conectando al Naming Service en " + namingServiceIp + ":" + namingServicePort);
+            System.out.println("IP local configurada como " + localIp);
 
             // Configura las propiedades del ORB
             Properties props = new Properties();
-            props.put("org.omg.CORBA.ORBInitialHost", ip);
-            props.put("org.omg.CORBA.ORBInitialPort", port);
+            props.put("org.omg.CORBA.ORBInitialHost", namingServiceIp);
+            props.put("org.omg.CORBA.ORBInitialPort", namingServicePort);
+            props.put("com.sun.CORBA.ORBServerHost", localIp); // Configura la IP local del servidor
 
-            // Inicializa el ORB
+            // Inicializa el ORB con las propiedades configuradas
             orb = ORB.init(new String[]{}, props);
 
             // Crea la implementación del servicio de asistencias

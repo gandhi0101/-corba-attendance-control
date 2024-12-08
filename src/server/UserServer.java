@@ -10,27 +10,28 @@ public class UserServer {
         ORB orb = null;
         try {
             // Verifica si se pasa el argumento de conexión
-            if (args.length < 1) {
-                System.err.println("Uso: java server.UserServer <ip:puerto>");
+            if (args.length < 2) {
+                System.err.println("Uso: java server.UserServer <naming_ip:naming_port> <local_ip>");
                 System.exit(1);
             }
 
-            // Divide el argumento en IP y puerto
-            String[] connectionInfo = args[0].split(":");
-            if (connectionInfo.length != 2) {
-                System.err.println("Formato incorrecto. Use <ip:puerto>.");
+            // Divide el primer argumento en IP y puerto del Naming Service
+            String[] namingInfo = args[0].split(":");
+            if (namingInfo.length != 2) {
+                System.err.println("Formato incorrecto. Use <naming_ip:naming_port>.");
                 System.exit(1);
             }
-            String remoteIp = connectionInfo[0];
-            String remotePort = connectionInfo[1];
+            String namingServiceIp = namingInfo[0];
+            String namingServicePort = namingInfo[1];
 
-            // Configura las propiedades del ORB para conexiones remotas
+            // Segundo argumento: IP local del servidor
+            String localIp = args[1];
+
+            // Configura las propiedades del ORB para conexiones remotas y la IP local
             Properties props = new Properties();
-            props.put("org.omg.CORBA.ORBInitialHost", remoteIp);
-            props.put("org.omg.CORBA.ORBInitialPort", remotePort);
-
-            // Configura la IP local del ORB para que anuncie la IP correcta
-            props.put("com.sun.CORBA.ORBServerHost", "172.17.0.4"); // IP local de esta máquina
+            props.put("org.omg.CORBA.ORBInitialHost", namingServiceIp);
+            props.put("org.omg.CORBA.ORBInitialPort", namingServicePort);
+            props.put("com.sun.CORBA.ORBServerHost", localIp); // IP local del servidor
 
             // Inicializa el ORB con las propiedades
             orb = ORB.init(new String[]{}, props);
