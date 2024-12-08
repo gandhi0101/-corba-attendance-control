@@ -1,8 +1,8 @@
 package utils;
 
 import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
+import org.omg.CosNaming.*;
 
 public class ORBSetup {
     public static void startORB(String[] args, Servant servant, String name) {
@@ -16,8 +16,7 @@ public class ORBSetup {
             NameComponent[] path = ncRef.to_name(name);
             ncRef.rebind(path, ref);
 
-            System.out.println(name + " estA listo y esperando.");
-            orb.run();
+            System.out.println(name + " registrado en el Naming Service.");
         } catch (Exception e) {
             e.printStackTrace();
         }

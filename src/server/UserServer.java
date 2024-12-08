@@ -12,7 +12,9 @@ public class UserServer {
             // Registra el servicio en el Naming Service
             ORBSetup.startORB(args, servant, "UsuarioService");
 
-            System.out.println("UsuarioService está listo y esperando conexiones...");
+            System.out.println("UsuarioService estA listo y esperando conexiones...");
+            // Mantiene el servidor activo para atender solicitudes
+            orb.run();
         } catch (Exception e) {
             e.printStackTrace();
         }
