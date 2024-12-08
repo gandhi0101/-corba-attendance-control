@@ -5,6 +5,7 @@ import utils.ORBSetup;
 public class AttendanceServer {
     public static void main(String[] args) {
         try {
+            ORB orb = ORB.init(args, null);
             // Crea la instancia del servicio de asistencias
             AttendanceServiceImpl servant = new AttendanceServiceImpl();
 

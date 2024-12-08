@@ -6,6 +6,7 @@ import server.UserServiceImpl;
 public class UserServer {
     public static void main(String[] args) {
         try {
+            ORB orb = ORB.init(args, null);
             // Crea la implementación del servicio
             UserServiceImpl servant = new UserServiceImpl();
 
