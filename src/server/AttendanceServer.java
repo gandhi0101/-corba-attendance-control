@@ -4,11 +4,13 @@ import utils.ORBSetup;
 import org.omg.CORBA.ORB;
 
 public class AttendanceServer {
+    @SuppressWarnings("ImplicitArrayToString")
     public static void main(String[] args) {
         ORB orb = null;
         try {
             // Inicializa el ORB
             orb = ORB.init(args, null);
+            System.err.println(args);
 
             // Crea la instancia del servicio de asistencias
             AttendanceServiceImpl servant = new AttendanceServiceImpl();
