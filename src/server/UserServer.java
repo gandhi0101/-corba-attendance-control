@@ -21,15 +21,18 @@ public class UserServer {
                 System.err.println("Formato incorrecto. Use <ip:puerto>.");
                 System.exit(1);
             }
-            String ip = connectionInfo[0];
-            String port = connectionInfo[1];
+            String remoteIp = connectionInfo[0];
+            String remotePort = connectionInfo[1];
 
-            // Configura las propiedades del ORB
+            // Configura las propiedades del ORB para conexiones remotas
             Properties props = new Properties();
-            props.put("org.omg.CORBA.ORBInitialHost", ip);
-            props.put("org.omg.CORBA.ORBInitialPort", port);
+            props.put("org.omg.CORBA.ORBInitialHost", remoteIp);
+            props.put("org.omg.CORBA.ORBInitialPort", remotePort);
 
-            // Inicializa el ORB
+            // Configura la IP local del ORB para que anuncie la IP correcta
+            props.put("com.sun.CORBA.ORBServerHost", "172.17.0.4"); // IP local de esta máquina
+
+            // Inicializa el ORB con las propiedades
             orb = ORB.init(new String[]{}, props);
 
             // Crea la implementación del servicio de usuarios
