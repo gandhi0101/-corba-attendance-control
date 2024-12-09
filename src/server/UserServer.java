@@ -28,7 +28,8 @@ public class UserServer {
         ORB orb = ORB.init(new String[]{}, props);
 
         UserServiceImpl servant = new UserServiceImpl();
-        ORBSetup.startORB(new String[]{}, servant, "UsuarioService");
+        ORBSetup.startORB(new String[]{}, props, servant, "UsuarioService");
+
 
         System.out.println("UsuarioService listo y esperando conexiones...");
         orb.run();

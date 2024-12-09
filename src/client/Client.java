@@ -21,27 +21,33 @@ public class Client {
         String namingIp = namingInfo[0];
         String namingPort = namingInfo[1];
 
+        // Configura las propiedades del ORB
         Properties props = new Properties();
-        props.put("org.omg.CORBA.ORBInitialHost", namingIp);
-        props.put("org.omg.CORBA.ORBInitialPort", namingPort);
+        props.put("org.omg.CORBA.ORBInitialHost", namingIp); // Dirección del NameService
+        props.put("org.omg.CORBA.ORBInitialPort", namingPort); // Puerto del NameService
 
-        ORB orb = ORB.init(new String[]{}, props);
+        System.out.println("Propiedades configuradas para el ORB: " + props);
 
         try {
+            // Inicializa el ORB
+            ORB orb = ORB.init(new String[]{}, props);
+
+            // Obtiene el Naming Service
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
+            // Resuelve los servicios remotos
             UsuarioService usuarioService = UsuarioServiceHelper.narrow(ncRef.resolve_str("UsuarioService"));
             AsistenciaService asistenciaService = AsistenciaServiceHelper.narrow(ncRef.resolve_str("AsistenciaService"));
 
-            String userId = "userId";
-            //asignar por teclado
+            // Solicita al usuario su ID
             System.out.println("Ingrese su ID de usuario:");
-            userId = System.console().readLine();
+            String userId = System.console().readLine();
 
             // Validar usuario y registrar asistencia
             System.out.println("Validando usuario...");
             if (usuarioService.validarUsuario(userId)) {
+                System.out.println("Usuario válido. Registrando asistencia...");
                 asistenciaService.registrarAsistencia(userId);
                 System.out.println(asistenciaService.generarReporte(userId));
             } else {
@@ -49,6 +55,7 @@ public class Client {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Error al conectar con el servicio.");
         }
     }
 }

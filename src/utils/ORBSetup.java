@@ -4,11 +4,15 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
 
+import java.util.Properties;
+
 public class ORBSetup {
-    public static void startORB(String[] args, Servant servant, String name) {
+    public static void startORB(String[] args, Properties orbProps, Servant servant, String name) {
         try {
+            // Inicializa el ORB con las propiedades proporcionadas
+            ORB orb = ORB.init(args, orbProps);
+
             // Inicializa el RootPOA y activa el POAManager
-            ORB orb = ORB.init(args, null);
             POA rootPOA = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
             rootPOA.the_POAManager().activate();
 
@@ -21,6 +25,8 @@ public class ORBSetup {
             ncRef.rebind(path, ref);
 
             System.out.println(name + " registrado en el Naming Service.");
+            // Deja corriendo el ORB para recibir solicitudes
+            orb.run();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Fallo al configurar el ORB");

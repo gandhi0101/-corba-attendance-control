@@ -34,7 +34,7 @@ public class AttendanceServer {
             AttendanceServiceImpl servant = new AttendanceServiceImpl();
 
             // Registra el servicio en el Naming Service con el nombre "AsistenciaService"
-            ORBSetup.startORB(new String[]{}, servant, "AsistenciaService");
+            ORBSetup.startORB(new String[]{}, props, servant, "AsistenciaService");
 
             System.out.println("AsistenciaService listo y esperando conexiones...");
 
