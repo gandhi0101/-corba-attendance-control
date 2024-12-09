@@ -19,13 +19,13 @@ Aplicación distribuida que utiliza CORBA para gestionar usuarios y control de a
    ```
 3. **Ejecutar el Naming Service**:
    ```bash
-   tnameserv -ORBInitialPort 1050
+   tnameserv -ORBInitialPort 900
    ```
 4. **Ejecutar los servicios**:
    ```bash
    
    java -cp build/ server.UserServer ip:port ip_desttino
-   java -cp build/ server.AttendanceServiceImpl ip:port ip_desttino
+   java -cp build/ server.AttendanceServer ip:port ip_desttino
 
    ```
 5. **Ejecutar el cliente**:

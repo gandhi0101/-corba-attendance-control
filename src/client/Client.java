@@ -34,7 +34,13 @@ public class Client {
             UsuarioService usuarioService = UsuarioServiceHelper.narrow(ncRef.resolve_str("UsuarioService"));
             AsistenciaService asistenciaService = AsistenciaServiceHelper.narrow(ncRef.resolve_str("AsistenciaService"));
 
-            String userId = "user1";
+            String userId = "userId";
+            //asignar por teclado
+            System.out.println("Ingrese su ID de usuario:");
+            userId = System.console().readLine();
+
+            // Validar usuario y registrar asistencia
+            System.out.println("Validando usuario...");
             if (usuarioService.validarUsuario(userId)) {
                 asistenciaService.registrarAsistencia(userId);
                 System.out.println(asistenciaService.generarReporte(userId));
