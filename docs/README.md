@@ -23,8 +23,10 @@ Aplicación distribuida que utiliza CORBA para gestionar usuarios y control de a
    ```
 4. **Ejecutar los servicios**:
    ```bash
-   java server.UserServiceImpl
-   java server.AttendanceServiceImpl
+   
+   java -cp build/ server.UserServer ip:port ip_desttino
+   java -cp build/ server.AttendanceServiceImpl ip:port ip_desttino
+
    ```
 5. **Ejecutar el cliente**:
    ```bash

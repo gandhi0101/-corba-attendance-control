@@ -12,22 +12,38 @@ public class AttendanceServer {
             System.exit(1);
         }
 
+        // Desglosa los argumentos
         String[] namingInfo = args[0].split(":");
         String namingIp = namingInfo[0];
         String namingPort = namingInfo[1];
         String localIp = args[1];
 
+        // Configura las propiedades del ORB
         Properties props = new Properties();
         props.put("org.omg.CORBA.ORBInitialHost", namingIp);
         props.put("org.omg.CORBA.ORBInitialPort", namingPort);
-        props.put("com.sun.CORBA.ORBServerHost", localIp);
+        props.put("com.sun.CORBA.ORBServerHost", localIp); // Configura la IP local
 
-        ORB orb = ORB.init(new String[]{}, props);
+        System.out.println("Propiedades del ORB configuradas: " + props);
 
-        AttendanceServiceImpl servant = new AttendanceServiceImpl();
-        ORBSetup.startORB(new String[]{}, servant, "AsistenciaService");
+        try {
+            // Inicializa el ORB
+            ORB orb = ORB.init(new String[]{}, props);
 
-        System.out.println("AsistenciaService listo y esperando conexiones...");
-        orb.run();
+            // Crea la implementación del servicio de asistencias
+            AttendanceServiceImpl servant = new AttendanceServiceImpl();
+
+            // Registra el servicio en el Naming Service con el nombre "AsistenciaService"
+            ORBSetup.startORB(new String[]{}, servant, "AsistenciaService");
+
+            System.out.println("AsistenciaService listo y esperando conexiones...");
+
+            // Mantiene el servidor activo
+            orb.run();
+        } catch (Exception e) {
+            System.err.println("Error inesperado al iniciar el servidor de asistencias.");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
