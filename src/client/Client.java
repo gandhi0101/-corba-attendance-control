@@ -53,6 +53,8 @@ public class Client {
             } else {
                 System.out.println("Usuario no válido.");
             }
+            // Deja corriendo el ORB para recibir solicitudes
+            orb.run();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error al conectar con el servicio.");
