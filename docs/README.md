@@ -30,7 +30,7 @@ Aplicación distribuida que utiliza CORBA para gestionar usuarios y control de a
    ```
 5. **Ejecutar el cliente**:
    ```bash
-   java client.Client
+   java -cp build/ client.Client
    ```
 
 

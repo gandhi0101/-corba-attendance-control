@@ -2,3 +2,5 @@ bin/
 
 build/
 Asistencia/
+orb.db/
+.DS_Store
