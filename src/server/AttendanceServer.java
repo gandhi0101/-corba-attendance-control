@@ -22,7 +22,7 @@ public class AttendanceServer {
         Properties props = new Properties();
         props.put("org.omg.CORBA.ORBInitialHost", namingIp);
         props.put("org.omg.CORBA.ORBInitialPort", namingPort);
-        props.put("com.omg.CORBA.ORBServerHost", localIp); // Configura la IP local
+        props.put("org.omg.CORBA.ORBServerHost", localIp); // Configura la IP local
 
         System.out.println("Propiedades del ORB configuradas: " + props);
 

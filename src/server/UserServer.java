@@ -21,7 +21,7 @@ public class UserServer {
         Properties props = new Properties();
         props.put("org.omg.CORBA.ORBInitialHost", namingIp);
         props.put("org.omg.CORBA.ORBInitialPort", namingPort);
-        props.put("com.sun.CORBA.ORBServerHost", localIp);
+        props.put("org.omg.CORBA.ORBServerHost", localIp);
 
         System.out.println("Propiedades configuradas para el ORB: " + props);
 
