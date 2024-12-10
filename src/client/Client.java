@@ -11,6 +11,7 @@ import org.omg.CosNaming.NamingContextExtHelper;
 import java.util.Properties;
 
 public class Client {
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.err.println("Uso: java client.Client <naming_ip:naming_port>");
@@ -41,20 +42,21 @@ public class Client {
             AsistenciaService asistenciaService = AsistenciaServiceHelper.narrow(ncRef.resolve_str("AsistenciaService"));
 
             // Solicita al usuario su ID
-            System.out.println("Ingrese su ID de usuario:");
-            String userId = System.console().readLine();
+            while (true) {
+                System.out.println("Ingrese su ID de usuario:");
+                String userId = System.console().readLine();
 
-            // Validar usuario y registrar asistencia
-            System.out.println("Validando usuario...");
-            if (usuarioService.validarUsuario(userId)) {
-                System.out.println("Usuario válido. Registrando asistencia...");
-                asistenciaService.registrarAsistencia(userId);
-                System.out.println(asistenciaService.generarReporte(userId));
-            } else {
-                System.out.println("Usuario no válido.");
+                // Validar usuario y registrar asistencia
+                System.out.println("Validando usuario...");
+                if (usuarioService.validarUsuario(userId)) {
+                    System.out.println("Usuario válido. Registrando asistencia...");
+                    asistenciaService.registrarAsistencia(userId);
+                    System.out.println(asistenciaService.generarReporte(userId));
+                } else {
+                    System.out.println("Usuario no válido.");
+                }
             }
-            // Deja corriendo el ORB para recibir solicitudes
-            orb.run();
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error al conectar con el servicio.");
