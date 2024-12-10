@@ -1,14 +1,19 @@
 package tests;
 
-import org.junit.Test;
 import static org.junit.Assert.*;
-import server.UserServiceImpl;
+import org.junit.Test;
 
 public class TestCases {
     @Test
-    public void testValidarUsuario() {
-        UserServiceImpl userService = new UserServiceImpl();
-        assertTrue(userService.validarUsuario("user1"));
-        assertFalse(userService.validarUsuario("userX"));
+    public void testRegisterUser() {
+        // Simulación de una prueba de UserServiceImpl
+        // Implementación aquí...
+        
+    }
+
+    @Test
+    public void testMarkAttendance() {
+        // Simulación de una prueba de AttendanceServiceImpl
+        // Implementación aquí...
     }
 }

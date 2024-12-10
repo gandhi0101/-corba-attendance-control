@@ -1,10 +1,11 @@
-module Asistencia {
-    interface UsuarioService {
-        boolean validarUsuario(in string idUsuario);
+module AsistenciaModule {
+    interface AttendanceService {
+        boolean markAttendance(in string userId, in string password);
+        boolean isPresent(in string userId);
     };
 
-    interface AsistenciaService {
-        boolean registrarAsistencia(in string idUsuario);
-        string generarReporte(in string idUsuario);
+    interface UserService {
+        boolean registerUser(in string userId, in string password);
+        boolean authenticateUser(in string userId, in string password);
     };
 };

@@ -1,53 +1,30 @@
 package client;
 
-import Asistencia.UsuarioService;
-import Asistencia.UsuarioServiceHelper;
-import Asistencia.AsistenciaService;
-import Asistencia.AsistenciaServiceHelper;
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
-
-import java.util.Properties;
+import utils.ORBSetup;
+import AsistenciaModule.*;
 
 public class Client {
 
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Uso: java client.Client <naming_ip:naming_port>");
-            System.exit(1);
-        }
-
-        String[] namingInfo = args[0].split(":");
-        String namingIp = namingInfo[0];
-        String namingPort = namingInfo[1];
-
-        // Configura las propiedades del ORB
-        Properties props = new Properties();
-        props.put("org.omg.CORBA.ORBInitialHost", namingIp); // Dirección del NameService
-        props.put("org.omg.CORBA.ORBInitialPort", namingPort); // Puerto del NameService
-
-        System.out.println("Propiedades configuradas para el ORB: " + props);
-
         try {
-            // Inicializa el ORB
-            ORB orb = ORB.init(new String[]{}, props);
+            org.omg.CORBA.ORB orb = ORBSetup.initializeORB(args);
 
-            // Obtiene el Naming Service
-            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
-            // Resuelve los servicios remotos
-            UsuarioService usuarioService = UsuarioServiceHelper.narrow(ncRef.resolve_str("UsuarioService"));
-            AsistenciaService asistenciaService = AsistenciaServiceHelper.narrow(ncRef.resolve_str("AsistenciaService"));
+            // Obtén referencia al objeto remoto desde el Naming Service
+            org.omg.CORBA.Object objRef = orb.string_to_object("corbaloc:iiop:localhost:1050/AttendanceService");
+            AttendanceService attendanceService = AttendanceServiceHelper.narrow(objRef);
 
             // Solicita al usuario su ID
             while (true) {
                 System.out.println("Ingrese su ID de usuario:");
                 String userId = System.console().readLine();
 
-                // Validar usuario y registrar asistencia
-                System.out.println("Validando usuario...");
+                // ingrese su password
+                System.out.println("Ingrese su password:");
+                String password = System.console().readLine();
+
+                boolean success = attendanceService.markAttendance(userId, password);
+                System.out.println("Attendance marked: " + success);
+
                 if (usuarioService.validarUsuario(userId)) {
                     System.out.println("Usuario válido. Registrando asistencia...");
                     asistenciaService.registrarAsistencia(userId);
@@ -56,10 +33,8 @@ public class Client {
                     System.out.println("Usuario no válido.");
                 }
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error al conectar con el servicio.");
         }
     }
 }
